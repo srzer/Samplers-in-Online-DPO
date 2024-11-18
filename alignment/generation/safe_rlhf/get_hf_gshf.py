@@ -101,7 +101,6 @@ model = AutoModelForCausalLM.from_pretrained(
         trust_remote_code=True
     ).to("cuda:0")
 model.config.use_cache = True
-model.eval()
 ref_model = AutoModelForCausalLM.from_pretrained(
         script_args.ref_model_name_or_path,
         torch_dtype=torch.bfloat16,
@@ -109,7 +108,6 @@ ref_model = AutoModelForCausalLM.from_pretrained(
         trust_remote_code=True
     ).to("cuda:1")
 ref_model.config.use_cache = True
-ref_model.eval()
 tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side='left')
 
 ds = load_dataset(script_args.dataset_name_or_path, split="train")
