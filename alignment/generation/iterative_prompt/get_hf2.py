@@ -102,7 +102,6 @@ model = LlamaForCausalLM.from_pretrained(
         trust_remote_code=True
     ).to("cuda:0")
 model.config.use_cache = True
-model.eval()
 tokenizer = LlamaTokenizer.from_pretrained(script_args.ref_model_name_or_path, padding_side='left')
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.pad_token_id = tokenizer.eos_token_id

@@ -108,17 +108,18 @@ def multi_plot(experiments, max_points = 1000):
 # Our configurations are as below:
 # exact: num_iter=100, beta=3, num_actions=20, lrs=[10]
 # empirical: num_iter=3000, beta=3, num_actions=20, lrs=[0.05]
-exp_type = [True] # True for empirical, False for exact
-num_iter = 3000
+exp_type = [False] # True for empirical, False for exact
+num_iter = 100
 beta = 3
 num_actions=20
-lrs = [0.05]
+lrs = [10]
 
 # Plotting parameters
 num_envs = 1 # the number of prompts
 num_samples = 8192 # the number of samples, to control the scale of noise
 
-set_random_seed(2225393)
+# set_random_seed(2225393)
+set_random_seed(1234567)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
