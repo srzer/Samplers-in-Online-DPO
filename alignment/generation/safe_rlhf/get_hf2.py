@@ -3,21 +3,25 @@ from dataclasses import dataclass, field
 from typing import List, Optional
 import numpy as np
 import torch
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
 from transformers import (
+    AutoModelForCausalLM,
     AutoTokenizer,
     HfArgumentParser,
+    TrainingArguments,
 )
-from vllm import LLM, SamplingParams
 import json
-
+import sys
+sys.path.append('./generation')
+from util_decode_general import FusionModel
+from torch.utils.data import DataLoader, TensorDataset
+from tqdm import tqdm
 
 @dataclass
 class ScriptArguments:
     """
     The arguments for the DPO training script.
     """
-
     model_name_or_path: Optional[str] = field(
         default="your model",
         metadata={"help": "the location of the SFT model name or path"},
@@ -29,6 +33,10 @@ class ScriptArguments:
     num_iter: Optional[int] = field(
         default=1,
         metadata={"help": "the number of iterations"},
+    )
+    flash_attention: Optional[bool] = field(
+        default=True,
+        metadata={"help": "the flash attention"},
     )
     local_index: Optional[int] = field(
         default=999,
@@ -82,26 +90,14 @@ seed = script_args.seed
 # set seed
 torch.manual_seed(seed)
 np.random.seed(seed)
-
-llm = LLM(
-    model=model_path,
-    tokenizer=model_path,
-    dtype="bfloat16",
-    max_model_len=script_args.max_input_length,
-    load_format="auto",
-    seed=seed,
-)
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-
-sampling_params = SamplingParams(
-    temperature=script_args.temperature,
-    top_p=1.0,
-    max_tokens=script_args.max_new_tokens,
-    n=script_args.K,
-    stop_token_ids=[tokenizer.eos_token_id] + script_args.eos_ids,
-    #stop=["<|user|>"],
-)
-
+model = AutoModelForCausalLM.from_pretrained(
+        script_args.model_name_or_path,
+        use_flash_attention_2=script_args.flash_attention,
+        torch_dtype=torch.bfloat16,
+        trust_remote_code=True
+    ).to("cuda:0")
+model.config.use_cache = True
+tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side='left')
 
 ds = load_dataset(script_args.dataset_name_or_path, split="train")
 ds = ds.map(
@@ -111,6 +107,7 @@ ds = ds.map(
 )
 ds = ds.filter(lambda example: len(example["prompt"]) <= script_args.max_input_length)
 num_iter = script_args.num_iter
+batch_size=20
 if num_iter > 0:
     ds = ds.select(range(10000))
 else:
@@ -124,15 +121,27 @@ print([script_args.local_index * one_num_share, (script_args.local_index + 1) * 
 print(ds, script_args.dataset_name_or_path)
 print(ds[0])
 
-
 prompts = ds["prompt"]
-outputs = llm.generate(prompts, sampling_params=sampling_params, use_tqdm=True)
-
+tokenized_prompts = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True, max_length=script_args.max_input_length)
+dataset = TensorDataset(tokenized_prompts['input_ids'].type(torch.long).to("cuda:0"), tokenized_prompts['attention_mask'].type(torch.bool).to("cuda:0"))
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+K = script_args.K
+outputs = [[] for _ in range(K)]
+for input_ids, attention_masks in tqdm(dataloader):
+    res = model.generate(input_ids=input_ids.to(model.device), attention_mask=attention_masks.to(model.device), max_length=input_ids.shape[1]+script_args.max_new_tokens, do_sample=True, temperature=script_args.temperature, top_p=1.0, num_return_sequences=K, pad_token_id=tokenizer.pad_token_id)
+    prompt_text = [None] * (res.shape[0]//K)
+    for idx in range(0, res.shape[0]//K):
+        prompt_text[idx] = tokenizer.decode(input_ids[idx], skip_special_tokens=True)
+    for idx in range(0, res.shape[0]//K):
+        for jdx in range(0, K):
+            text = tokenizer.decode(res[idx*K+jdx], skip_special_tokens=True)
+            outputs[jdx].append(text[len(prompt_text[idx]):])
+    
 completions = []
 used_prompts = []
 gathered_data = []
-for i, output in enumerate(outputs):
-    tmp_data = {"prompt": prompts[i], "responses": [out.text for out in output.outputs]}
+for i in range(len(outputs[0])):
+    tmp_data = {"prompt": prompts[i], "responses": [outputs[idx][i][:] for idx in range(len(outputs))]}
     gathered_data.append(tmp_data)
 
 
