@@ -1,6 +1,6 @@
 # The Crucial Role of Samplers in Online DPO
 
-This repo provides code for the paper **"The Crucial Role of Samplers in Online Direct Preference Optimization"**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. This repo is still under construction. If you find any issue in reproduction, feel free to reach out.
+This repo provides code for the paper **"The Crucial Role of Samplers in Online Direct Preference Optimization"**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. **This repo is still under construction. If you find any issue in reproduction, feel free to reach out.**
 
 ## Numerical simulations
 The numerical simulations can be easily reproduced by running
@@ -15,7 +15,7 @@ Next we will introduce how to run our LM alignment experiments.
 ## Set up
 Our codebase is mainly based on [**RLHFlow**](https://github.com/RLHFlow/Online-RLHF), and the configurations are mostly same. *We directly borrow some instructions from that repository in this section.*
 
-It is recommeded to have three separate environments for **inference**, **training** and **evaluation**, respectively. 
+It is recommended to have three separate environments for **inference**, **training** and **evaluation**, respectively. 
 
 **Inference Environment**
 
@@ -62,6 +62,8 @@ pip install wandb
 wandb login
 huggingface-cli login
 ```
+
+You can also directly refer to the `alignment/requirement_*.yaml`.
 
 ## Pipeline
 
