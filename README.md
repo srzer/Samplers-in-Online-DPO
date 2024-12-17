@@ -77,6 +77,8 @@ cd alignment
 bash sample_train_safe_rlhf.sh
 ```
 
+If you want to reproduce our results, we provide our first-iteration checkpoints in this [link](https://drive.google.com/drive/folders/1oop1pCeAuHSW1eUVhTzIP4S75nEPirv9?usp=drive_link). You can download and train them.
+
 **Evaluation**
 
 For evaluation, we provide such a script, `sample_eval_safe_rlhf.sh` as well.
