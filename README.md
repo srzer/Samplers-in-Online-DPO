@@ -77,6 +77,8 @@ cd alignment
 bash sample_train_safe_rlhf.sh
 ```
 
+If you want to reproduce our results, we provide our first-iteration checkpoints in this [link](https://huggingface.co/zhezi12138/alpaca-7b-iter-1). You can download and train them.
+
 **Evaluation**
 
 For evaluation, we provide such a script, `sample_eval_safe_rlhf.sh` as well.
