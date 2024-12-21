@@ -108,11 +108,11 @@ def multi_plot(experiments, max_points = 1000):
 # Our configurations are as below:
 # exact: num_iter=100, beta=3, num_actions=20, lrs=[10]
 # empirical: num_iter=3000, beta=3, num_actions=20, lrs=[0.05]
-exp_type = [True] # True for empirical, False for exact
-num_iter = 3000
+exp_type = [False] # True for empirical, False for exact
+num_iter = 100
 beta = 3
 num_actions=20
-lrs = [0.05]
+lrs = [10]
 
 # Plotting parameters
 num_envs = 1 # the number of prompts
