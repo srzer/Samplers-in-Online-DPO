@@ -20,11 +20,3 @@ CUDA_VISIBLE_DEVICES=4,5 python ./generation/safe_rlhf/get_hf3.py --model_name_o
 CUDA_VISIBLE_DEVICES=6,7 python ./generation/safe_rlhf/get_hf3.py --model_name_or_path ${infer_model} --ref_model_name_or_path ${ref_model} --dataset_name_or_path ${prompt_dir} --output_dir ${output_dir} --K ${K} --temperature ${temperature} --local_index 3 --my_world_size ${my_world_size} --eos_ids 2 --max_input_length ${max_input_length} --max_new_tokens ${max_new_tokens} --num_iter ${num_iter} --seed ${seed} 
 wait
 python ./generation/merge_data.py --base_path ${output_dir} --output_dir "./data/gen_data_iter${num_iter}_mixp.json" --num_datasets ${my_world_size}
-
-# CUDA_VISIBLE_DEVICES=0 python ./generation/safe_rlhf/get_hf_vllm.py --model_name_or_path ${infer_model} --dataset_name_or_path ${prompt_dir} --output_dir ${output_dir} --K ${K} --temperature ${temperature} --local_index 0 --my_world_size ${my_world_size} --eos_ids 2 --max_input_length ${max_input_length} --max_new_tokens ${max_new_tokens} --num_iter ${num_iter} --seed ${seed} &
-# CUDA_VISIBLE_DEVICES=1 python ./generation/safe_rlhf/get_hf_vllm.py --model_name_or_path ${infer_model} --dataset_name_or_path ${prompt_dir} --output_dir ${output_dir} --K ${K} --temperature ${temperature} --local_index 1 --my_world_size ${my_world_size} --eos_ids 2 --max_input_length ${max_input_length} --max_new_tokens ${max_new_tokens} --num_iter ${num_iter} --seed ${seed} &
-# CUDA_VISIBLE_DEVICES=2 python ./generation/safe_rlhf/get_hf_vllm.py --model_name_or_path ${infer_model} --dataset_name_or_path ${prompt_dir} --output_dir ${output_dir} --K ${K} --temperature ${temperature} --local_index 2 --my_world_size ${my_world_size} --eos_ids 2 --max_input_length ${max_input_length} --max_new_tokens ${max_new_tokens} --num_iter ${num_iter} --seed ${seed} &
-# CUDA_VISIBLE_DEVICES=3 python ./generation/safe_rlhf/get_hf_vllm.py --model_name_or_path ${infer_model} --dataset_name_or_path ${prompt_dir} --output_dir ${output_dir} --K ${K} --temperature ${temperature} --local_index 3 --my_world_size ${my_world_size} --eos_ids 2 --max_input_length ${max_input_length} --max_new_tokens ${max_new_tokens} --num_iter ${num_iter} --seed ${seed} 
-
-# wait
-# python ./generation/merge_data.py --base_path ${output_dir} --output_dir ./data/gen_data_iter${num_iter}_mixp_temp2.json --num_datasets ${my_world_size}

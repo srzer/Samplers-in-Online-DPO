@@ -119,7 +119,7 @@ ds = ds.map(
 ds = ds.filter(lambda example: len(example["prompt"]) <= script_args.max_input_length)
 num_iter = script_args.num_iter
 batch_size=1
-ds = ds.select(range(10000, 10050))
+ds = ds.select(range(10000, 10200))
 
 data_size = len(ds["prompt"])
 one_num_share = int(data_size / script_args.my_world_size)
