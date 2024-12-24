@@ -1,23 +1,27 @@
 # The Crucial Role of Samplers in Online DPO
 
-This repo provides code for the paper **"The Crucial Role of Samplers in Online Direct Preference Optimization"**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. **This repo is still under construction. If you find any issue in reproduction, feel free to create an issue!**
+This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://arxiv.org/pdf/2409.19605)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***This repo is still under construction. If you find any issue in reproduction, feel free to create an issue!***
 
-## Numerical simulations
+## :octopus:Numerical simulations
+
 The numerical simulations can be easily reproduced by running
+
 ```bash
 cd bandit
 python examples/tabular.py
 ```
+
 The hyperparameters can be set in `example/tabular.py`. Basic environment configurations can run our code well. 
 
-Next we will introduce how to run our LM alignment experiments.
+Next we will introduce how to run our **LM alignment experiments**.
 
-## Set up
+## :hammer:Set up
+
 Our codebase is mainly based on [**RLHFlow**](https://github.com/RLHFlow/Online-RLHF), and the configurations are mostly same. *We directly borrow some instructions from that repository in this section.*
 
 It is recommended to have three separate environments for **inference**, **training** and **evaluation**, respectively. You can directly refer to the `alignment/requirement_*.yaml`, or you can configure them following instructions below.
 
-**Inference Environment**
+**:blue_heart:Inference Environment**
 
 ```sh
 conda create -n vllm python=3.10.9
@@ -32,7 +36,7 @@ pip install accelerate==0.27.2
 pip install deepspeed
 ```
 
-**Training Environment**
+**:green_heart:Training Environment**
 
 ```sh
 conda create -n rlhflow python=3.10.9
@@ -47,7 +51,8 @@ pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.5.
 pip install accelerate==0.27.2
 ```
 
-**Evaluation Environment**
+**:yellow_heart:Evaluation Environment**
+
 ```sh
 conda create -n rewardflow --clone rlhflow
 conda activate rewardflow
@@ -63,35 +68,38 @@ wandb login
 huggingface-cli login
 ```
 
-## Pipeline
+## :surfer:Pipeline
 
 The whole pipeline is composed of **data generation**, **data annotation** and **DPO training**, and will repeat $3$ iterations for each approach. (Since we employ off-shelf tuned models, the sft stage is omitted.) In this codebase, we denote *vanilla DPO* as `offline`, *on-policy DPO* as `online`, *hybrid GSHF* as `gshf`, and *ours* as `mixp`.
 
-**Training**
+**:apple:Training**
 
 For training, we provide putting-everything-together scripts, `sample_train_safe_rlhf.sh` and `sample_train_iterative_prompt.sh`. You can refer to it for more details.
+
 ```bash
 cd alignment
 bash sample_train_safe_rlhf.sh
 ```
 
-If you want to reproduce our results, we provide our first-iteration checkpoints in [this link](https://huggingface.co/zhezi12138/alpaca-7b-iter-1) and [this link](https://huggingface.co/zhezi12138/llama-3b-iter-1). You can download and train them. **Note:** We’ve retrained the models for more systematic results, and the results may slightly differ from that was reported in the paper. We will update it later.
+If you want to reproduce our results, we provide our first-iteration checkpoints in [this link](https://huggingface.co/zhezi12138/alpaca-7b-iter-1) and [this link](https://huggingface.co/zhezi12138/llama-3b-iter-1). You can download and train them. ***Note:** We’ve retrained the models for more systematic results, and the results may slightly differ from that was reported in the paper. We will update it later.*
 
-**Evaluation**
+**:green_apple:Evaluation**
 
 For evaluation, we provide such scripts, `sample_eval_safe_rlhf.sh` and `sample_eval_iterative_prompt` as well.
+
 ```bash
 cd alignment
 bash sample_eval_safe_rlhf.sh
 ```
 
 We also provide a script, `sample_eval_kl.sh`, for calculating the KL divergence between trained model and base model.
+
 ```bash
 cd alignment
 conda activate vllm
 bash sample_kl.sh
 ```
 
-**Clarification**
+**:flushed:Clarification**
 
-There are some details that we implement in a different way from RLHFlow. We use `rev_kl` instead of `kl` for `loss_type` during training, to align the setting closer to BT-model. We use the same set of prompts for each iteration, while `num_iter=0` refers to the test data. We also use different hyperparameters for generation, due to lack of computation resources.
+There are some details that we implement in a different way from [**RLHFlow**](https://github.com/RLHFlow/Online-RLHF). We use `rev_kl` instead of `kl` for `loss_type` during training, to align the setting closer to BT-model. We use the same set of prompts for each iteration, while `num_iter=0` refers to the test data. We also use different hyperparameters for generation, due to lack of computation resources.
