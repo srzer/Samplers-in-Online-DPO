@@ -97,7 +97,7 @@ We also provide a script, `sample_eval_kl.sh`, for calculating the KL divergence
 ```bash
 cd alignment
 conda activate vllm
-bash sample_kl.sh
+bash sample_eval_kl.sh
 ```
 
 **:flushed:Clarification**
