@@ -15,7 +15,7 @@ Next we will introduce how to run our LM alignment experiments.
 ## Set up
 Our codebase is mainly based on [**RLHFlow**](https://github.com/RLHFlow/Online-RLHF), and the configurations are mostly same. *We directly borrow some instructions from that repository in this section.*
 
-It is recommended to have three separate environments for **inference**, **training** and **evaluation**, respectively. 
+It is recommended to have three separate environments for **inference**, **training** and **evaluation**, respectively. You can directly refer to the `alignment/requirement_*.yaml`, or you can configure them following instructions below.
 
 **Inference Environment**
 
@@ -63,15 +63,13 @@ wandb login
 huggingface-cli login
 ```
 
-You can also directly refer to the `alignment/requirement_*.yaml`.
-
 ## Pipeline
 
-The whole pipeline is composed of **data generation**, **data annotation** and **DPO training**, and will repeat $3$ iterations for each approach. (Since we employ off-shelf tuned models, the sft stage is omitted.) In this codebase, we denote *vanilla DPO* as `ref` or `offline`, *on-policy DPO* as `online`, *hybrid GSHF* as `gshf`, and *ours* as `mixp`.
+The whole pipeline is composed of **data generation**, **data annotation** and **DPO training**, and will repeat $3$ iterations for each approach. (Since we employ off-shelf tuned models, the sft stage is omitted.) In this codebase, we denote *vanilla DPO* as `offline`, *on-policy DPO* as `online`, *hybrid GSHF* as `gshf`, and *ours* as `mixp`.
 
 **Training**
 
-For training, we provide a putting-everything-together script, `sample_train_safe_rlhf.sh`. You can refer to it for more details.
+For training, we provide putting-everything-together scripts, `sample_train_safe_rlhf.sh` and `sample_train_iterative_prompt.sh`. You can refer to it for more details.
 ```bash
 cd alignment
 bash sample_train_safe_rlhf.sh
@@ -81,13 +79,13 @@ If you want to reproduce our results, we provide our first-iteration checkpoints
 
 **Evaluation**
 
-For evaluation, we provide such a script, `sample_eval_safe_rlhf.sh` as well.
+For evaluation, we provide such scripts, `sample_eval_safe_rlhf.sh` and `sample_eval_iterative_prompt` as well.
 ```bash
 cd alignment
 bash sample_eval_safe_rlhf.sh
 ```
 
-We also provide a script, `sample_kl.sh`, for calculating the KL divergence between trained model and base model.
+We also provide a script, `sample_eval_kl.sh`, for calculating the KL divergence between trained model and base model.
 ```bash
 cd alignment
 conda activate vllm
