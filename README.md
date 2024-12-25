@@ -103,3 +103,20 @@ bash sample_eval_kl.sh
 **:flushed:Clarification**
 
 There are some details that we implement in a different way from [**RLHFlow**](https://github.com/RLHFlow/Online-RLHF). We use `rev_kl` instead of `kl` for `loss_type` during training, to align the setting closer to BT-model. We use the same set of prompts for each iteration, while `num_iter=0` refers to the test data. We also use different hyperparameters for generation, due to lack of computation resources.
+
+## 🏷️ License
+
+This repo is licensed under the MIT license. See the [LICENSE](https://github.com/srzer/samplers-in-online-dpo/blob/main/LICENSE) file for details.
+
+## 📝 Citation
+
+If you find our work useful, please consider citing:
+
+```
+@article{shi2024crucialrolesamplerdpo,
+  title={The Crucial Role of Samplers in Online Direct Preference Optimization},
+  author={Ruizhe Shi and Runlong Zhou and Simon S. Du},
+  journal={arXiv preprint}, 
+  year={2024}
+}
+```
