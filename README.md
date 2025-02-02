@@ -1,6 +1,6 @@
 # The Crucial Role of Samplers in Online DPO
 
-This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://arxiv.org/pdf/2409.19605)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***This repo is still under construction. If you find any issue in reproduction, feel free to create an issue!***
+This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://openreview.net/pdf?id=F6z3utfcYw)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***This repo is still under construction. If you find any issue in reproduction, feel free to create an issue!***
 
 ## :octopus:Numerical simulations
 
@@ -81,7 +81,7 @@ cd alignment
 bash sample_train_safe_rlhf.sh
 ```
 
-If you want to reproduce our results, we provide our first-iteration checkpoints in [this link](https://huggingface.co/zhezi12138/alpaca-7b-iter-1) and [this link](https://huggingface.co/zhezi12138/llama-3b-iter-1). You can download and train them. ***Note:** We’ve retrained the models for more systematic results, and the results may slightly differ from that was reported in the paper. We will update it later.*
+If you want to reproduce our results, we provide our first-iteration checkpoints in [this link](https://huggingface.co/zhezi12138/alpaca-7b-iter-1) and [this link](https://huggingface.co/zhezi12138/llama-3b-iter-1). You can download and train them. ***Note:** We’ve retrained the models for more systematic results, and updated the results in the paper.*
 
 **:green_apple:Evaluation**
 
