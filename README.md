@@ -1,6 +1,6 @@
 # The Crucial Role of Samplers in Online DPO
 
-This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://openreview.net/pdf?id=F6z3utfcYw)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***This repo is still under construction. If you find any issue in reproduction, feel free to create an issue!***
+This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://openreview.net/pdf?id=F6z3utfcYw)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***If you find any issue in reproduction, feel free to create an issue!***
 
 ## :octopus:Numerical simulations
 
