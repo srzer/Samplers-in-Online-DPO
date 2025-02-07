@@ -1,6 +1,6 @@
 # The Crucial Role of Samplers in Online DPO
 
-This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://openreview.net/pdf?id=F6z3utfcYw)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***If you find any issue in reproduction, feel free to create an issue!***
+This repo provides code for the paper **["The Crucial Role of Samplers in Online Direct Preference Optimization"](https://arxiv.org/pdf/2409.19605)**. The `bandit` directory is to reproduce our numerical simulations, and the `alignment` directory is to reproduce our LM alignment experiments. ***If you find any issue in reproduction, feel free to create an issue!***
 
 ## :octopus:Numerical simulations
 
@@ -113,10 +113,12 @@ This repo is licensed under the MIT license. See the [LICENSE](https://github.co
 If you find our work useful, please consider citing:
 
 ```
-@article{shi2024crucialrolesamplerdpo,
+@inproceedings{
+  shi2024crucialrolesamplerdpo,
   title={The Crucial Role of Samplers in Online Direct Preference Optimization},
   author={Ruizhe Shi and Runlong Zhou and Simon S. Du},
-  journal={arXiv preprint}, 
-  year={2024}
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2025},
+  url={https://openreview.net/forum?id=F6z3utfcYw}
 }
 ```
