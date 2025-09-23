@@ -28,7 +28,7 @@ conda create -n vllm python=3.10.9
 conda activate vllm
 pip install datasets
 # The following code is tested for CUDA12.0-12.2. You may need to update the torch and flash-attention sources according to your own CUDA version
-pip3 install torch==2.1.2 torchvision torchaudio
+pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 pip install https://github.com/vllm-project/vllm/releases/download/v0.4.0/vllm-0.4.0-cp310-cp310-manylinux1_x86_64.whl 
 pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.5.7/flash_attn-2.5.7+cu122torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 
@@ -45,7 +45,7 @@ conda activate rlhflow
 git clone https://github.com/huggingface/alignment-handbook.git
 cd ./alignment-handbook/
 git checkout d17fd7cd3b71c6a7bf7af34d8dc73135bb7ea8e9
-pip3 install torch==2.1.2 torchvision torchaudio
+pip install torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu121
 python -m pip install .
 pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.5.7/flash_attn-2.5.7+cu122torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 pip install accelerate==0.27.2
